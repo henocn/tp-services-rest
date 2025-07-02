@@ -2,12 +2,31 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+const users = [
+    {id : 1, username: "abalo", email : "abalo@gmail.com"},
+    {id : 2, username: "henoc", email : "henoc@gmail.com"},
+    {id : 3, username: "ali", email : "ali@gmail.com"},
+]
+
 app.get('/', (req, res) => {
     res.send("Hello world");
 })
 
 app.get('/users', (req, res) => {
-    res.send("Users");
+    res.send(users);
+})
+
+// app.get('/users/:id', (req, res) => {
+//     const id = req.params.id;
+//     const user = users.find(user => user.id === parseInt(id));
+//     res.send(user);
+// })
+
+
+app.get('/users/:email', (req, res) => {
+    const email = req.params.email;
+    const user = users.find(user => user.email === email);
+    res.send(user);
 })
 
 app.listen(port, () =>{
