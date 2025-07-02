@@ -6,6 +6,7 @@ const users = [
     {id : 1, username: "abalo", email : "abalo@gmail.com"},
     {id : 2, username: "henoc", email : "henoc@gmail.com"},
     {id : 3, username: "ali", email : "ali@gmail.com"},
+    {id : 4, username: "ali", email : "ali1@gmail.com"},
 ]
 
 app.get('/', (req, res) => {
