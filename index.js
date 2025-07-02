@@ -24,11 +24,24 @@ app.get('/users', (req, res) => {
 // })
 
 
-app.get('/users/:email', (req, res) => {
-    const email = req.params.email;
-    const user = users.find(user => user.email === email);
-    res.send(user);
+// app.get('/users/:email', (req, res) => {
+//     const email = req.params.email;
+//     const user = users.find(user => user.email === email);
+//     res.send(user);
+// })
+
+
+app.get('/names/:nom', (req, res) => {
+    const nom = req.params.nom;
+    const id = req.query.id;
+    const user = users.filter(user => user.username === nom);
+    if (id) {
+        const user = users.filter(user => user.username === nom && user.id === parseInt(id));
+        return res.send(user);
+    }
+    res.send(user)
 })
+
 
 app.listen(port, () =>{
     console.log(`Server is running on port ${port}`)
