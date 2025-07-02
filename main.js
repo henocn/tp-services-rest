@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express ();
 const port = 5000
+app.use(express.json());
 
 app.listen(port, () =>{
     console.log(`Serveur lancé sur le port ${port}`)
@@ -31,4 +32,40 @@ app.get("/products/:id", (req, res) => {
         return res.status(404).send({detail: "No ptoduct found with this id", status : 404})
     }
     return res.status(403).send({error : "Please enter the id", status: 403})
+})
+
+
+// Récupération d'un seul produit
+app.get("/product-info/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const quantity = req.query.quantity
+    if(quantity) {
+        const product = products.find(product => {
+            product.prixTotal = quantity * product.price + " $";
+            return product.id === id;
+        })
+
+        if (product){
+            return res.status(200).send({product: product, status: 200})
+        }
+        return res.status(404).send({detail: "No ptoduct found with this id", status : 404})
+    }
+    
+    return res.status(403).send({detail: "Please give the quantity", status : 404})
+})
+
+
+app.post("/products", (req, res) => {
+    const data = req.body
+    id = products.length + 1;
+    const product = {
+        id: id, name: data.name, category: data.category, price: data.price, createdAt: new Date()
+    }
+    if(!data.name || !data.price ){
+        return res.status(403).json({detail : "Name and price are required", status: 403})
+    }
+    if(products.push(product)){
+        return res.status(201).json({products: products, status: 201, message: "Product created successfully"})
+    }
+    return res.status(403).json({error: "Error while processing data, please retry", status: 403})
 })
