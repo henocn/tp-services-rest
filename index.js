@@ -38,7 +38,7 @@ app.get('/names/:nom', (req, res) => {
     if (id) {
         const user = users.filter(user => user.username === nom && user.id === parseInt(id));
         if (!user.length) {
-            return res.status(404).send({"error" : "user not found", "status": "404"})
+            return res.status(404).send({error : "user not found", status: "404"})
         }
         return res.send(user);
     }
