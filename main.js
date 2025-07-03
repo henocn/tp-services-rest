@@ -70,9 +70,12 @@ app.post("/products", (req, res) => {
     return res.status(403).json({error: "Error while processing data, please retry", status: 403})
 })
 
+
+
 // Implementation d'un bulk de création de produits
 app.post("/products/bulk", (req, res) => {
     const data = req.body;
+    console.log(data);
     if(!data || !Array.isArray(data)){
         return res.status(403).json({detail: "Please provide an array of products", status: 403})
     }
@@ -86,5 +89,5 @@ app.post("/products/bulk", (req, res) => {
         }
     })
     products.push(...newProducts);
-    return res.status(201).json({data: products, status: 201, message: "Products created successfully"})
+    return res.status(201).json({data: products, status: 201, message: "Réussi"})
 })
