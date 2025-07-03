@@ -77,8 +77,7 @@ app.post("/products/bulk", (req, res) => {
         return res.status(400).json({detail: "Please provide an array of products", status: 400})
     }
 
-    const invalidList = [];
-
+    const invalidList = []
     const newProducts = data.map((item, index) => {
         if(!item.name || !item.price || item.price <= 0){
             invalidList.push(item)
@@ -92,7 +91,7 @@ app.post("/products/bulk", (req, res) => {
             }
         }
     })
-    products.push(...newProducts);
+    products + newProducts;
     
     if(invalidList.length == data.length) {
         return res.status(400).json({message: "Tous les elements ne sont pas corrects", status: 400})
@@ -111,8 +110,12 @@ app.put("/products/:id", (req, res) => {
     if(!data || !id){
         return res.status(400).json({detail: "Please provide the id and the data to update", status: 400})
     }
-    if(!data.name || !data.price ){
+    if(!data.name || !data.price || data.price <= 0){
         return res.status(403).json({detail : "Name and price are required", status: 403})
+    }
+    // id n'existe pas
+    if ( ){
+        return res.status.apply(404).json({mesage: "Id n'existe pas", status: 404})
     }
     products.map((product) => {
         product.id === id ? (
