@@ -11,7 +11,6 @@ const henocProductSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true,
     },
     quantity: {
         type: Number,
@@ -28,3 +27,6 @@ const henocProductSchema = new mongoose.Schema({
     }
 
 }, { timestamps: true });
+
+const Product = mongoose.model('HenocProduct', henocProductSchema);
+module.exports = Product;
