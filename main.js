@@ -129,3 +129,32 @@ app.put("/products/:id", (req, res) => {
     return res.status(404).json({message: `ID ${id} not found`, status: 404})
 
 })
+
+
+
+// Implementation d'une méthode PATCH
+app.patch("/products/:id", (req, res) => {
+    const data = req.body;
+    const id = parseInt(req.params.id);
+    if(!data || !id){
+        return res.status(400).json({detail: "Please provide the id and the data to update", status: 400})
+    }
+    if(data.price <= 0){
+        return res.status(403).json({detail : "Name and price are required", status: 403})
+    }
+    let idExist = false;
+
+    products.map((product) => {
+        product.id === id ? (
+            idExist = true,
+            product.name = data.name ? data.name : product.name,
+            product.category = data.category ? data.category : product.category,
+            product.price = data.price ? data.price : product.price
+        ) : product
+    })
+    if(idExist) {
+        return res.status(200).json({products: products, status: 200, message: "Product updated"})
+    }
+    return res.status(404).json({message: `ID ${id} not found`, status: 404})
+
+})
