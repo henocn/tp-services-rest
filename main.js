@@ -140,7 +140,7 @@ app.patch("/products/:id", (req, res) => {
         return res.status(400).json({detail: "Please provide the id and the data to update", status: 400})
     }
     if(data.price <= 0){
-        return res.status(403).json({detail : "Name and price are required", status: 403})
+        return res.status(403).json({detail : "Price should be positive", status: 403})
     }
     let idExist = false;
 
@@ -157,4 +157,17 @@ app.patch("/products/:id", (req, res) => {
     }
     return res.status(404).json({message: `ID ${id} not found`, status: 404})
 
+})
+
+
+// delete
+app.delete("/products/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = products.findIndex(p => p.id === id);
+
+    if (index === !-1){
+        products.splice(index, 1)
+        return res.status(204).json({message: `Object deleted, no content`, status: 204})
+    }
+    return res.status(404).json({message: `ID ${id} not found`, status: 404})
 })
