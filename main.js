@@ -11,8 +11,6 @@ const products = [
     {id: 1, name : "Lacoste XL", category: "Vetement", price: 3500, createdAt: new Date()},
     {id: 2, name : "Veste", category: "Vetement", price: 2500, createdAt: new Date()},
     {id: 3, name : "Table", category: "Meuble", price: 4000, createdAt: new Date()},
-    {id: 4, name : "Cahier", category: "Ecolier", price: 1700, createdAt: new Date()},
-    {id: 5, name : "Chaise", category: "Meuble", price: 5000, createdAt: new Date()}
 ]
 
 // Implementation d'une méthode GET
@@ -78,11 +76,31 @@ app.post("/products/bulk", (req, res) => {
     if(!data || !Array.isArray(data)){
         return res.status(400).json({detail: "Please provide an array of products", status: 400})
     }
+
+    const invalidList = [];
+
     const newProducts = data.map((item, index) => {
-        return { id: products.length + index + 1, name: item.name, category: item.category, price: item.price, createdAt: new Date()}
+        if(!item.name || !item.price || item.price <= 0){
+            invalidList.push(item)
+        } else {
+            return {
+                id: products.length + index + 1,
+                name: item.name,
+                category: item.category,
+                price: item.price,
+                createdAt: new Date()
+            }
+        }
     })
     products.push(...newProducts);
-    return res.status(201).json({data: products, status: 201, message: "Réussi"})
+    
+    if(invalidList.length == data.length) {
+        return res.status(400).json({message: "Tous les elements ne sont pas corrects", status: 400})
+    } 
+    if(invalidList.length == 0){
+        return res.status(201).json({data: products, status: 201, message: "Réussi"})
+    }
+    return res.status(201).json({data: products, invalidList: invalidList, status: 201, message: "Réussi partiellement"})
 })
 
 
