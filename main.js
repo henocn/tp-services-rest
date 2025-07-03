@@ -123,9 +123,9 @@ app.put("/products/:id", (req, res) => {
             product.price = data.price
         ) : product
     })
-    if(idExist == false) {
-        return res.status(404).json({message: "ID not found", status: 404})
+    if(idExist) {
+        return res.status(200).json({products: products, status: 200, message: "Product updated"})
     }
-    return res.status(200).json({products: products, status: 200, message: "Product updated"})
+    return res.status(404).json({message: `ID ${id} not found`, status: 404})
 
 })
