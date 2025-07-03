@@ -69,3 +69,22 @@ app.post("/products", (req, res) => {
     }
     return res.status(403).json({error: "Error while processing data, please retry", status: 403})
 })
+
+// Implementation d'un bulk de création de produits
+app.post("/products/bulk", (req, res) => {
+    const data = req.body;
+    if(!data || !Array.isArray(data)){
+        return res.status(403).json({detail: "Please provide an array of products", status: 403})
+    }
+    const newProducts = data.map((item, index) => {
+        return {
+            id: products.length + index + 1,
+            name: item.name,
+            category: item.category,
+            price: item.price,
+            createdAt: new Date()
+        }
+    })
+    products.push(...newProducts);
+    return res.status(201).json({data: products, status: 201, message: "Products created successfully"})
+})
