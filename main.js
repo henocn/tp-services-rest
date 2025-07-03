@@ -113,18 +113,19 @@ app.put("/products/:id", (req, res) => {
     if(!data.name || !data.price || data.price <= 0){
         return res.status(403).json({detail : "Name and price are required", status: 403})
     }
-    // id n'existe pas
-    if ( ){
-        return res.status.apply(404).json({mesage: "Id n'existe pas", status: 404})
-    }
+    let idExist = false;
+
     products.map((product) => {
         product.id === id ? (
+            idExist = true,
             product.name = data.name,
             product.category = data.category,
-            product.price = data.price,
-            product.createdAt = new Date()
+            product.price = data.price
         ) : product
     })
+    if(idExist == false) {
+        return res.status(404).json({message: "ID not found", status: 404})
+    }
     return res.status(200).json({products: products, status: 200, message: "Product updated"})
 
 })
