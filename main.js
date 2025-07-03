@@ -75,9 +75,8 @@ app.post("/products", (req, res) => {
 // Implementation d'un bulk de création de produits
 app.post("/products/bulk", (req, res) => {
     const data = req.body;
-    console.log(data);
     if(!data || !Array.isArray(data)){
-        return res.status(403).json({detail: "Please provide an array of products", status: 403})
+        return res.status(400).json({detail: "Please provide an array of products", status: 400})
     }
     const newProducts = data.map((item, index) => {
         return { id: products.length + index + 1, name: item.name, category: item.category, price: item.price, createdAt: new Date()}
