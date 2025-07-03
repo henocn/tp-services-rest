@@ -84,3 +84,26 @@ app.post("/products/bulk", (req, res) => {
     products.push(...newProducts);
     return res.status(201).json({data: products, status: 201, message: "Réussi"})
 })
+
+
+// Implementation d'une méthode PUT
+app.put("/products/:id", (req, res) => {
+    const data = req.body;
+    const id = parseInt(req.params.id);
+    if(!data || !id){
+        return res.status(400).json({detail: "Please provide the id and the data to update", status: 400})
+    }
+    if(!data.name || !data.price ){
+        return res.status(403).json({detail : "Name and price are required", status: 403})
+    }
+    products.map((product) => {
+        product.id === id ? (
+            product.name = data.name,
+            product.category = data.category,
+            product.price = data.price,
+            product.createdAt = new Date()
+        ) : product
+    })
+    return res.status(200).json({products: products, status: 200, message: "Product updated"})
+
+})
