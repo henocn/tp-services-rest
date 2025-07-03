@@ -80,13 +80,7 @@ app.post("/products/bulk", (req, res) => {
         return res.status(403).json({detail: "Please provide an array of products", status: 403})
     }
     const newProducts = data.map((item, index) => {
-        return {
-            id: products.length + index + 1,
-            name: item.name,
-            category: item.category,
-            price: item.price,
-            createdAt: new Date()
-        }
+        return { id: products.length + index + 1, name: item.name, category: item.category, price: item.price, createdAt: new Date()}
     })
     products.push(...newProducts);
     return res.status(201).json({data: products, status: 201, message: "Réussi"})
