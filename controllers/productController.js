@@ -83,7 +83,7 @@ const deleteProduct = async (req, res) => {
     try {
         const product = await Product.findByIdAndDelete(id);
         if (product) {
-            res.status(204).send();
+            res.status(204).send({messge: "Product deleted succesfully"});
         } else {
             res.status(404).json({ message: 'Product not found' });
         }
