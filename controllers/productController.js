@@ -13,6 +13,16 @@ const addProduct = async (req, res) => {
 }
 
 
+// bulk create
+const bulkCreate = async(req, res) => {
+    try {
+        
+    } catch(error){
+        res.status(500).json({ message: 'Error bulk creating products', error });
+    }
+}
+
+
 // get all products
 const getAllProducts = async (req, res) => {
     try {
