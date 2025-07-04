@@ -5,7 +5,8 @@ const henocUserSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true
+        unique: true,
+        match: [/^[^\s@]+@[^\s@]+\.[$\s@]+$/, "Please enter a valid email"]
     },
     password: {
         type: Number,
