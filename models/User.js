@@ -30,7 +30,11 @@ module.exports = User;
 
 
 
-henocUserSchema.methods.setAction = function(action) {
+henocUserSchema.methods.setAction = (action) => {
     this.actions.push(action);
     return this.save();
+}
+
+henocUserSchema.methods.getAction = () => {
+    return this.action;
 }
