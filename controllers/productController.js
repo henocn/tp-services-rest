@@ -23,4 +23,20 @@ const getAllProducts = async (req, res) => {
     }
 }
 
-module.exports = {addProduct, getAllProducts};
+// get one element
+const getElementById = async(req, res) => {
+    try{
+        const product = await Product.findById(id);
+        if (product) {
+            res.status(200).json(product);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+
+    } catch (error) {
+        console.log("An error occured");
+        res.status(500).json({ message: 'Error fetching product', error });
+    }
+}
+
+module.exports = {addProduct, getAllProducts, getElementById};
