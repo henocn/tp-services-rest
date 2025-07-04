@@ -15,6 +15,9 @@ const henocUserSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['superadmin', 'admin', 'user']
+    },
+    refrechToken: {
+        type: String
     }
 
 }, { timestamps: true });
