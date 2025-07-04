@@ -25,6 +25,10 @@ const getAllProducts = async (req, res) => {
 
 // get one element
 const getElementById = async(req, res) => {
+    const id = req.params.id;
+    if (!id) {
+        return res.status(400).json({ message: 'Product ID is required' });
+    }
     try{
         const product = await Product.findById(id);
         if (product) {
@@ -38,5 +42,8 @@ const getElementById = async(req, res) => {
         res.status(500).json({ message: 'Error fetching product', error });
     }
 }
+
+
+// Endpoint pour le 
 
 module.exports = {addProduct, getAllProducts, getElementById};
