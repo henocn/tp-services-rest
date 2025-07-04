@@ -1,96 +1,32 @@
-const Product = require('../models/Product');
+const User = require('../models/User');
 
-// add new product
-const addProduct = async (req, res) => {
+
+// register new User
+const register = async (req, res) => {
+    const {email, password} = req.body
     try{
-        const data = req.body;
-        const product = new Product(data);
-        await product.save();
-        res.status(201).json(product);
+        const user = await User.create(email, password);
+        res.status(201).json(user);
     } catch (error) {
-        res.status(500).json({ message: 'Error adding product', error });
+        res.status(500).json({ message: 'Error adding User', error });
     }
 }
 
 
-// bulk create
-const bulkCreate = async(req, res) => {
-    try {
-        const products = req.body;
-        if (!Array.isArray(products) || products.length === 0) {
-            return res.status(400).json({ message: 'Invalid input data' });
-        }
-        const createdProducts = await Product.insertMany(products);
-        res.status(201).json(createdProducts);
-    } catch(error){
-        res.status(500).json({ message: 'Error bulk creating products', error });
-    }
-}
-
-
-// get all products
-const getAllProducts = async (req, res) => {
-    try {
-        const products = await Product.find();
-        res.status(200).json(products);
-    }  catch (error) {
-        res.status(500).json({ message: 'Error fetching products', error });
-    }
-}
-
-
-// get one element
-const getElementById = async(req, res) => {
-    const id = req.params.id;
-    if (!id) {
-        return res.status(400).json({ message: 'Product ID is required' });
-    }
+// login
+const login = async(req, res) => {
+    const {email, password} = req.body
     try{
-        const product = await Product.findById(id);
-        if (product) {
-            res.status(200).json(product);
+        const user = await User.findOne({ email, password });
+        if (user) {
+            res.status(401).json({ message: 'Invalid email or password' });
         } else {
-            res.status(404).json({ message: 'Product not found' });
+            res.status(200).json({message: "user loged in successfully"});
         }
-
     } catch (error) {
-        console.log("An error occured");
-        res.status(500).json({ message: 'Error fetching product', error });
+        res.status(500).json({ message: 'Error logging in', error });
     }
 }
 
 
-// Endpoint pour le put
-const updateProduct = async (req, res) => {
-    const id = req.params.id;
-    try {
-        const product = await Product.findByIdAndUpdate(id, req.body, { new: true });
-        if (product) {
-            res.status(200).json(product);
-        } else {
-            res.status(404).json({ message: 'Product not found' });
-        }
-    } catch (error) {
-        console.log("An error occured");
-        res.status(500).json({ message: 'Error updating product', error });
-    }
-}
-
-
-// Endpoint pour le delete
-const deleteProduct = async (req, res) => {
-    const id = req.params.id;
-    try {
-        const product = await Product.findByIdAndDelete(id);
-        if (product) {
-            res.status(204).send({messge: "Product deleted succesfully"});
-        } else {
-            res.status(404).json({ message: 'Product not found' });
-        }
-    } catch (error) {
-        console.log("An error occured");
-        res.status(500).json({ message: 'Error deleting product', error });
-    }
-}
-
-module.exports = {addProduct, bulkCreate, getAllProducts, getElementById, updateProduct, deleteProduct};
+module.exports = {register, login};

@@ -18,10 +18,6 @@ const henocUserSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['superadmin', 'admin', 'user']
-    },
-    quantity: {
-        type: Number,
-        required: true
     }
 
 }, { timestamps: true });
