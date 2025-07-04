@@ -63,4 +63,24 @@ const updateProduct = async (req, res) => {
     }
 }
 
-module.exports = {addProduct, getAllProducts, getElementById, updateProduct};
+
+// Endpoint pour le delete
+const deleteProduct = async (req, res) => {
+    const id = req.params.id;
+    if (!id) {
+        return res.status(400).json({ message: 'Product ID is required' });
+    }
+    try {
+        const product = await Product.findByIdAndDelete(id);
+        if (product) {
+            res.status(204).send();
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        console.log("An error occured");
+        res.status(500).json({ message: 'Error deleting product', error });
+    }
+}
+
+module.exports = {addProduct, getAllProducts, getElementById, updateProduct, deleteProduct};
