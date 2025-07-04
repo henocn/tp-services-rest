@@ -48,9 +48,6 @@ const getElementById = async(req, res) => {
 // Endpoint pour le put
 const updateProduct = async (req, res) => {
     const id = req.params.id;
-    if (!id) {
-        return res.status(400).json({ message: 'Product ID is required' });
-    }
     try {
         const product = await Product.findByIdAndUpdate(id, req.body, { new: true });
         if (product) {
@@ -68,9 +65,6 @@ const updateProduct = async (req, res) => {
 // Endpoint pour le delete
 const deleteProduct = async (req, res) => {
     const id = req.params.id;
-    if (!id) {
-        return res.status(400).json({ message: 'Product ID is required' });
-    }
     try {
         const product = await Product.findByIdAndDelete(id);
         if (product) {
