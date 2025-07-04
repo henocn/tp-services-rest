@@ -57,18 +57,23 @@ const updateUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     const adminTokken = req.body.adminTokken
-    
-    if(!adminTokken){
-        res.status(401).json({message: 'Admin tokken is required'})
-    }
+    console.log(adminTokken)
 
-    const user = await User.findById(adminTokken);
-    if(user.role !== "admin" || user.role !== "superadmin") {
-        return res.status(403).json({message: "You are not authorized to acces to this information"})
+    try {
+        if(!adminTokken){
+            res.status(401).json({message: 'Admin tokken is required'})
+        }
+        
+        const user = await User.findById(adminTokken);
+        if(user.role !== "admin") {
+            return res.status(403).json({message: "You are not authorized to acces to this information"})
+        }
+        const users = await User.find();
+        
+        return res.status(200).json({users: users})
+    } catch(error) {
+        res.status(401).json({message: 'Error'})
     }
-    const users = await User.find();
-
-    return res.status(200).json({users: users})
 }
 
 
