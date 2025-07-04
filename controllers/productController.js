@@ -23,6 +23,7 @@ const getAllProducts = async (req, res) => {
     }
 }
 
+
 // get one element
 const getElementById = async(req, res) => {
     const id = req.params.id;
