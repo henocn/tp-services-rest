@@ -14,26 +14,29 @@ const henocUserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['superadmin', 'admin', 'user']
+        enum: ['superadmin', 'admin', 'user'],
+        default: 'user'
     },
     refrechToken: {
         type: String
     },
-    action: [{
-        type: String
-    }]
+    isActive: {
+        type: Boolean,
+        default: false
+    }
 
 }, { timestamps: true });
 
 
-henocUserSchema.methods.setAction = (action) => {
-    this.actions.push(action);
+henocUserSchema.methods.setActive = function() {
+    this.isActive = true;
     return this.save();
 }
 
-henocUserSchema.methods.getAction = () => {
-    return this.action;
+henocUserSchema.methods.getActive = function() {
+    return this.isActive;
 }
+
 
 const User = mongoose.model('henoc_user', henocUserSchema);
 module.exports = User;
