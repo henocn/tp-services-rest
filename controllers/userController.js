@@ -38,6 +38,23 @@ const login = async(req, res) => {
 }
 
 
+// Endpoint pour le put
+const updateUser = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await User.findByIdAndUpdate(id, req.body, { new: true });
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.log("An error occured");
+        res.status(500).json({ message: 'Error updating User', error });
+    }
+}
+
+
 const getAllUsers = async (req, res) => {
     const adminTokken = req.body.adminTokken
     
@@ -55,4 +72,4 @@ const getAllUsers = async (req, res) => {
 }
 
 
-module.exports = {register, login};
+module.exports = {register, login, updateUser, getAllUsers};
