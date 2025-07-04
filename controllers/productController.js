@@ -16,7 +16,12 @@ const addProduct = async (req, res) => {
 // bulk create
 const bulkCreate = async(req, res) => {
     try {
-        
+        const products = req.body;
+        if (!Array.isArray(products) || products.length === 0) {
+            return res.status(400).json({ message: 'Invalid input data' });
+        }
+        const createdProducts = await Product.insertMany(products);
+        res.status(201).json(createdProducts);
     } catch(error){
         res.status(500).json({ message: 'Error bulk creating products', error });
     }
@@ -88,4 +93,4 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-module.exports = {addProduct, getAllProducts, getElementById, updateProduct, deleteProduct};
+module.exports = {addProduct, bulkCreate, getAllProducts, getElementById, updateProduct, deleteProduct};
