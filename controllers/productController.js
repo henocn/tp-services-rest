@@ -44,6 +44,23 @@ const getElementById = async(req, res) => {
 }
 
 
-// Endpoint pour le 
+// Endpoint pour le put
+const updateProduct = async (req, res) => {
+    const id = req.params.id;
+    if (!id) {
+        return res.status(400).json({ message: 'Product ID is required' });
+    }
+    try {
+        const product = await Product.findByIdAndUpdate(id, req.body, { new: true });
+        if (product) {
+            res.status(200).json(product);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        console.log("An error occured");
+        res.status(500).json({ message: 'Error updating product', error });
+    }
+}
 
-module.exports = {addProduct, getAllProducts, getElementById};
+module.exports = {addProduct, getAllProducts, getElementById, updateProduct};
