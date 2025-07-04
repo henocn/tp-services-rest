@@ -13,6 +13,12 @@ const henocProfileSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
+    },
+    departement: {
+        type: String,
+    },
+    class: {
+        type: String,
     }
 
 }, { timestamps: true });
