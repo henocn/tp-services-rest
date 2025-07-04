@@ -12,6 +12,7 @@ const register = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ email, password: hashedPassword, role });
+        user.setAction("register")
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ message: 'Error adding User', error });
@@ -28,6 +29,7 @@ const login = async(req, res) => {
     try{
         const user = await User.findOne({ email });
         if (user && await bcrypt.compare(password, user.password)) {
+            user.setAction("login");
             res.status(200).json({ message: 'User logged in successfully' });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
@@ -44,7 +46,9 @@ const updateUser = async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(id, req.body, { new: true });
         if (user) {
+            user.setAction("update")
             res.status(200).json(user);
+
         } else {
             res.status(404).json({ message: 'User not found' });
         }
