@@ -18,9 +18,19 @@ const henocUserSchema = new mongoose.Schema({
     },
     refrechToken: {
         type: String
-    }
+    },
+    action: [{
+        type: String
+    }]
 
 }, { timestamps: true });
 
 const User = mongoose.model('henoc_user', henocUserSchema);
 module.exports = User;
+
+
+
+henocUserSchema.methods.setAction = function(action) {
+    this.actions.push(action);
+    return this.save();
+}
