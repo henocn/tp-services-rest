@@ -25,10 +25,6 @@ const henocUserSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-const User = mongoose.model('henoc_user', henocUserSchema);
-module.exports = User;
-
-
 
 henocUserSchema.methods.setAction = (action) => {
     this.actions.push(action);
@@ -38,3 +34,6 @@ henocUserSchema.methods.setAction = (action) => {
 henocUserSchema.methods.getAction = () => {
     return this.action;
 }
+
+const User = mongoose.model('henoc_user', henocUserSchema);
+module.exports = User;
