@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 const { generateToken } = require('../utility/security');
 
 
@@ -14,11 +15,9 @@ const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ email, password: hashedPassword, role });
 
-        const token = generateToken = (user, user.role, true)
-        const refreshToken = refreshToken(user);
+        const token = generateToken(user, user.role, true);
         
-        user.refleshToekn = refreshToekn;
-        user.isActive() = true;
+        user.isActive = true;
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ message: 'Error adding User', error });
