@@ -1,4 +1,6 @@
 const Product = require('../models/Product');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // add new product
 const addProduct = async (req, res) => {
@@ -30,8 +32,38 @@ const bulkCreate = async(req, res) => {
 
 // get all products
 const getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.status(200).json(products);
+    }  catch (error) {
+        res.status(500).json({ message: 'Error fetching products', error });
+    }
+}
+
+
+// get all products
+const getAllProductsByUserId = async (req, res) => {
     const tokenHeader = req.headers.authorization;
-    console.log(tokenHeader)
+    const user_id = req.query.user_id;
+    if(!id) {
+        res.status(403).json({message : "User id is required"});
+    }
+    if(!tokenHeader){
+        res.status(403).json({message : "Token required"});
+    }
+    if(tokenHeader.split(' ')[0]  !== 'Beader'){
+        res.status(403).json({message : " Token is not a Bearer token"});
+    }
+    try {
+        const token = tokenHeader.split(' ')[1]
+        const decoded = jwt.verify(token, process.env.JWT_TOKEN)
+        if(decoded.id === user_id){
+            res.status(403).json({message : "This token does not matche the user_id"});
+        }
+    } catch (error) {
+        res.status(403).json({message : "This token is not a token"});
+    }
+
     try {
         const products = await Product.find();
         res.status(200).json(products);
@@ -95,4 +127,4 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-module.exports = {addProduct, bulkCreate, getAllProducts, getElementById, updateProduct, deleteProduct};
+module.exports = {addProduct, bulkCreate, getAllProducts, getAllProductsByUserId, getElementById, updateProduct, deleteProduct};
