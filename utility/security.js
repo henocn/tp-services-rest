@@ -6,7 +6,7 @@ const generateToken = (user, role, isActive) => {
     return jwt.sign(
         { id: user._id, email: user.email, role: role, isActive: isActive },
         process.env.JWT_SECRET,
-        { expiresIn: '30d' }
+        { expiresIn: '1d' }
     );
 };
 
@@ -15,7 +15,7 @@ const refreshToken = (user) => {
     return jwt.sign(
         { id: user._id, email: user.email },
         process.env.JWT_REFRESH_SECRET,
-        { expiresIn: '30d' }
+        { expiresIn: '10d' }
     );
 };
 

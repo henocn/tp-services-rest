@@ -39,6 +39,7 @@ const login = async(req, res) => {
             const token = generateToken(user, user.role, true);
             const refToken = refreshToken(user);
             await user.setActive();
+            user.refrechToken = refToken
             res.status(200).json({ 
                 message: 'User logged in successfully',
                 token: token,
