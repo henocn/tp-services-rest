@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const { generateToken } = require('../utility/security');
+const { generateToken, refreshToken } = require('../utility/security');
 
 
 // register new User
@@ -37,10 +37,12 @@ const login = async(req, res) => {
         const user = await User.findOne({ email });
         if (user && await bcrypt.compare(password, user.password)) {
             const token = generateToken(user, user.role, true);
+            const refToken = refreshToken(user);
             await user.setActive();
             res.status(200).json({ 
                 message: 'User logged in successfully',
                 token: token,
+                refreshToken: refToken,
                 user: { id: user._id, email: user.email, role: user.role }
             });
         } else {
