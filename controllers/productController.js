@@ -30,6 +30,8 @@ const bulkCreate = async(req, res) => {
 
 // get all products
 const getAllProducts = async (req, res) => {
+    const tokenHeader = req.headers.authorization;
+    console.log(tokenHeader)
     try {
         const products = await Product.find();
         res.status(200).json(products);
