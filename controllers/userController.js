@@ -37,7 +37,7 @@ const login = async(req, res) => {
         const user = await User.findOne({ email });
         if (user && await bcrypt.compare(password, user.password)) {
             const token = generateToken(user, user.role, true);
-            user.setAction("login");
+            await user.setActive();
             res.status(200).json({ 
                 message: 'User logged in successfully',
                 token: token,
