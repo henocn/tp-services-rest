@@ -32,17 +32,6 @@ const bulkCreate = async(req, res) => {
 
 // get all products
 const getAllProducts = async (req, res) => {
-    try {
-        const products = await Product.find();
-        res.status(200).json(products);
-    }  catch (error) {
-        res.status(500).json({ message: 'Error fetching products', error });
-    }
-}
-
-
-// get all products
-const getAllProductsByUserId = async (req, res) => {
     const tokenHeader = req.headers.authorization;
     const user_id = req.query.user_id;
     if(!id) {
@@ -127,4 +116,4 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-module.exports = {addProduct, bulkCreate, getAllProducts, getAllProductsByUserId, getElementById, updateProduct, deleteProduct};
+module.exports = {addProduct, bulkCreate, getAllProducts, getElementById, updateProduct, deleteProduct};
